@@ -9,3 +9,12 @@ require 'vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+
+$sdk = new \Aws\Sdk([
+    'region' => $_ENV['REGION'],
+    'version' => 'latest',
+]);
+
+$dynClient = $sdk->createDynamoDb([
+    'endpoint' => $_ENV['ENDPOINT']
+]);
