@@ -2,10 +2,10 @@
 
 require_once '.bootstrap.php';
 
-$tableName = 'People';
+/** @var \Aws\DynamoDb\DynamoDbClient $dynClient */
+/** @var string $tableName */
 
 try {
-    /** @var \Aws\DynamoDb\DynamoDbClient $dynClient */
     $deleteResult = $dynClient->deleteTable([
         'TableName' => $tableName,
     ]);

@@ -18,3 +18,5 @@ $sdk = new \Aws\Sdk([
 $dynClient = $sdk->createDynamoDb([
     'endpoint' => $_ENV['ENDPOINT']
 ]);
+
+$tableName = 'People';
