@@ -48,6 +48,12 @@ try {
 
         echo "Done\n";
     }
+} catch (\Aws\DynamoDB\Exception\DynamoDbException $dbException) {
+    if (preg_match('/Cannot do operations on a non-existent table/', $dbException->getMessage())) {
+        echo "\nError: Table[$tableName] not found.\n";
+    } else {
+        throw $dbException;
+    }
 } catch (Exception $e) {
     echo get_class($e) . ' ' . $e->getMessage() . "\n";
 }

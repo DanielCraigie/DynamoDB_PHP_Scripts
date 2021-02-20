@@ -6,10 +6,6 @@ require_once '.bootstrap.php';
 /** @var string $tableName */
 
 try {
-    $deleteResult = $dynClient->deleteTable([
-        'TableName' => $tableName,
-    ]);
-
     $createResult = $dynClient->createTable([
         'AttributeDefinitions' => [
             [
@@ -43,6 +39,12 @@ try {
     }
 
     echo "Table[$tableName] created.\n";
+} catch (\Aws\DynamoDB\Exception\DynamoDbException $dbException) {
+    if (preg_match('/Cannot create preexisting table/', $dbException->getMessage())) {
+        echo "Table[$tableName] already exists.\n";
+    } else {
+        throw $dbException;
+    }
 } catch (Exception $e) {
     echo get_class($e) . ' ' . $e->getMessage() . "\n";
 }
