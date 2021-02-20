@@ -9,23 +9,27 @@ try {
     for ($i = 1; $i <= 10; $i++) {
         $faker = Faker\Factory::create();
 
-        echo "Adding[$i] {$faker->name}... ";
+        $firstName = $faker->firstName;
+        $lastName = $faker->lastName;
+        $fullName = "$firstName $lastName";
+
+        echo "Adding[$i] $fullName... ";
 
         $putPersonal = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'Name' => [ ATTRIBUTE_TYPE_STRING => $faker->firstName . ' ' . $faker->lastName ],
+                'Name' => [ ATTRIBUTE_TYPE_STRING => $fullName ],
                 'Information' => [ ATTRIBUTE_TYPE_STRING => 'Personal' ],
                 'Title' => [ ATTRIBUTE_TYPE_STRING => $faker->title ],
-                'Forename' => [ ATTRIBUTE_TYPE_STRING => $faker->firstName ],
-                'Surname' => [ ATTRIBUTE_TYPE_STRING => $faker->lastName ],
+                'Forename' => [ ATTRIBUTE_TYPE_STRING => $firstName ],
+                'Surname' => [ ATTRIBUTE_TYPE_STRING => $lastName ],
             ],
         ]);
 
         $putAddress = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'Name' => [ ATTRIBUTE_TYPE_STRING => $faker->firstName . ' ' . $faker->lastName ],
+                'Name' => [ ATTRIBUTE_TYPE_STRING => $fullName ],
                 'Information' => [ ATTRIBUTE_TYPE_STRING => 'Address' ],
                 'Building' => [ ATTRIBUTE_TYPE_STRING => $faker->buildingNumber ],
                 'Street1' => [ ATTRIBUTE_TYPE_STRING => $faker->streetName ],
@@ -39,7 +43,7 @@ try {
         $putContact = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'Name' => [ ATTRIBUTE_TYPE_STRING => $faker->firstName . ' ' . $faker->lastName ],
+                'Name' => [ ATTRIBUTE_TYPE_STRING => $fullName ],
                 'Information' => [ ATTRIBUTE_TYPE_STRING => 'Contact' ],
                 'Phone' => [ ATTRIBUTE_TYPE_STRING => $faker->phoneNumber ],
                 'Email' => [ ATTRIBUTE_TYPE_STRING => $faker->email ],
