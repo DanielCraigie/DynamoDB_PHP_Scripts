@@ -14,21 +14,21 @@ try {
         'AttributeDefinitions' => [
             [
                 'AttributeName' => 'Name',
-                'AttributeType' => 'S',
+                'AttributeType' => ATTRIBUTE_TYPE_STRING,
             ],
             [
                 'AttributeName' => 'Information',
-                'AttributeType' => 'S',
+                'AttributeType' => ATTRIBUTE_TYPE_STRING,
             ],
         ],
         'KeySchema' => [
             [
                 'AttributeName' => 'Name',
-                'KeyType' => 'HASH',
+                'KeyType' => KEY_TYPE_HASH,
             ],
             [
                 'AttributeName' => 'Information',
-                'KeyType' => 'RANGE',
+                'KeyType' => KEY_TYPE_RANGE,
             ],
         ],
         'ProvisionedThroughput' => [
