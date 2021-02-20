@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e6d4a33500346b8453aa8871cdb6929",
+    "content-hash": "d2f2d13e349deb95f72a490288a78677",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.171.19",
+            "version": "3.173.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e786e4a8b2ec85b258833d0570ff6b61348cbdb6"
+                "reference": "b8ef72b8b335a1bb004505784f1a03ff5b37928f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e786e4a8b2ec85b258833d0570ff6b61348cbdb6",
-                "reference": "e786e4a8b2ec85b258833d0570ff6b61348cbdb6",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b8ef72b8b335a1bb004505784f1a03ff5b37928f",
+                "reference": "b8ef72b8b335a1bb004505784f1a03ff5b37928f",
                 "shasum": ""
             },
             "require": {
@@ -92,9 +92,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.171.19"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.173.13"
             },
-            "time": "2021-01-15T19:26:11+00:00"
+            "time": "2021-02-19T19:14:50+00:00"
         },
         {
             "name": "fakerphp/faker",
@@ -727,7 +727,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.22.0",
+            "version": "v1.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -786,7 +786,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.22.1"
             },
             "funding": [
                 {
@@ -806,16 +806,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.22.0",
+            "version": "v1.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "f377a3dd1fde44d37b9831d68dc8dea3ffd28e13"
+                "reference": "5232de97ee3b75b0360528dae24e73db49566ab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f377a3dd1fde44d37b9831d68dc8dea3ffd28e13",
-                "reference": "f377a3dd1fde44d37b9831d68dc8dea3ffd28e13",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/5232de97ee3b75b0360528dae24e73db49566ab1",
+                "reference": "5232de97ee3b75b0360528dae24e73db49566ab1",
                 "shasum": ""
             },
             "require": {
@@ -866,7 +866,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.22.1"
             },
             "funding": [
                 {
@@ -882,11 +882,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-07T16:49:33+00:00"
+            "time": "2021-01-22T09:19:47+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.22.0",
+            "version": "v1.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
@@ -949,7 +949,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/v1.22.0"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.22.1"
             },
             "funding": [
                 {
@@ -969,16 +969,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v5.2.0",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "fba64139db67123c7a57072e5f8d3db10d160b66"
+                "reference": "b3eac5c7ac896e52deab4a99068e3f4ab12d9e56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/fba64139db67123c7a57072e5f8d3db10d160b66",
-                "reference": "fba64139db67123c7a57072e5f8d3db10d160b66",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/b3eac5c7ac896e52deab4a99068e3f4ab12d9e56",
+                "reference": "b3eac5c7ac896e52deab4a99068e3f4ab12d9e56",
                 "shasum": ""
             },
             "require": {
@@ -993,7 +993,7 @@
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.4.1",
                 "ext-filter": "*",
-                "phpunit/phpunit": "^7.5.20 || ^8.5.2 || ^9.0"
+                "phpunit/phpunit": "^7.5.20 || ^8.5.14 || ^9.5.1"
             },
             "suggest": {
                 "ext-filter": "Required to use the boolean validator."
@@ -1001,7 +1001,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.2-dev"
+                    "dev-master": "5.3-dev"
                 }
             },
             "autoload": {
@@ -1033,7 +1033,7 @@
             ],
             "support": {
                 "issues": "https://github.com/vlucas/phpdotenv/issues",
-                "source": "https://github.com/vlucas/phpdotenv/tree/v5.2.0"
+                "source": "https://github.com/vlucas/phpdotenv/tree/v5.3.0"
             },
             "funding": [
                 {
@@ -1045,7 +1045,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-14T15:57:31+00:00"
+            "time": "2021-01-20T15:23:13+00:00"
         }
     ],
     "packages-dev": [],
@@ -1054,7 +1054,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-json": "*"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
 }
