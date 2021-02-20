@@ -6,14 +6,54 @@ require_once '.bootstrap.php';
 /** @var string $tableName */
 
 try {
-    $results = $dynClient->scan([
-        'TableName' => $tableName,
-    ]);
+    $tableDescription = $dynClient->describeTable([ 'TableName' => $tableName ]);
 
-    echo "Scan found {$results['ScannedCount']} Items\n";
+    $hashAttribute = $rangeAttribute = null;
+    foreach ($tableDescription['Table']['KeySchema'] as $key) {
+        switch ($key['KeyType']) {
+            case KEY_TYPE_HASH:
+                $hashAttribute = $key['AttributeName'];
+                break;
+            case KEY_TYPE_RANGE:
+                $rangeAttribute = $key['AttributeName'];
+        }
+    }
 
-    foreach ($results['Items'] as $item) {
-        print_r($item);
+    $scanResults = $dynClient->scan([ 'TableName' => $tableName ]);
+
+    echo "Scan found {$scanResults['ScannedCount']} of {$scanResults['Count']} Items\n";
+
+    $count = 1;
+    foreach ($scanResults['Items'] as $item) {
+        $attributes = [];
+        $hashValue = $rangeValue = '';
+
+        foreach ($item as $attributeName => $attributeData) {
+            // we are only expecting a single value to be stored in the Attribute
+            $attributeValue = reset($attributeData);
+
+            switch ($attributeName) {
+                case $hashAttribute:
+                    $hashValue = $attributeValue;
+                    break;
+                case $rangeAttribute:
+                    $rangeValue = $attributeValue;
+                    break;
+                default:
+                    $attributes[$attributeName] = $attributeValue;
+            }
+        }
+
+        echo "Item $count [ $hashAttribute => $hashValue"
+            . (!empty($rangeValue) ? ", $rangeAttribute => $rangeValue" : '');
+
+        foreach ($attributes as $name => $value) {
+            echo ", $name => $value";
+        }
+
+        echo " ]\n";
+
+        $count++;
     }
 
     echo "End Scan\n";
