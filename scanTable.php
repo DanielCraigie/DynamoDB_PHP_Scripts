@@ -64,5 +64,5 @@ try {
         throw $dbException;
     }
 } catch (Exception $e) {
-    echo get_class($e) . ' ' . $e->getMessage() . "\n";
+    echo get_class($e) . ': ' . $e->getMessage() . "\n";
 }

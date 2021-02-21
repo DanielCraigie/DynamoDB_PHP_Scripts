@@ -6,16 +6,6 @@ require_once '.bootstrap.php';
 /** @var string $tableName */
 
 try {
-    if (!empty($argv[1])) {
-        $hash = $argv[1];
-
-        if (!empty($argv[2])) {
-            $range = $argv[2];
-        }
-    } else {
-        throw new Exception('You must provide a Primary Key');
-    }
-
     $tableDescription = $dynClient->describeTable([ 'TableName' => $tableName ]);
 
     $hashAttribute = $rangeAttribute = null;
@@ -29,14 +19,21 @@ try {
         }
     }
 
+    if (empty($argv[1])
+        || (!empty($rangeAttribute)
+            && empty($argv[2]))
+    ) {
+        throw new Exception('You must provide a complete Primary Key');
+    }
+
     $key = [
         $hashAttribute => [
-            ATTRIBUTE_TYPE_STRING => $hash,
+            ATTRIBUTE_TYPE_STRING => $argv[1],
         ],
     ];
 
-    if (!empty($range)) {
-        $key[$rangeAttribute] = [ ATTRIBUTE_TYPE_STRING => $range ];
+    if (!empty($rangeAttribute)) {
+        $key[$rangeAttribute] = [ ATTRIBUTE_TYPE_STRING => $argv[2] ];
     }
 
     $getResult = $dynClient->getItem([
@@ -78,5 +75,5 @@ try {
         throw $dbException;
     }
 } catch (Exception $e) {
-    echo get_class($e) . ' ' . $e->getMessage() . "\n";
+    echo get_class($e) . ': ' . $e->getMessage() . "\n";
 }
