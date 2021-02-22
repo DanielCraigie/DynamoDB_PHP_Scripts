@@ -1,5 +1,8 @@
 <?php
 
+use Dotenv\Dotenv;
+use Aws\Sdk;
+
 // min PHP version requirement
 $minVersion = '7.4.0';
 if (version_compare(PHP_VERSION, $minVersion) < 0)
@@ -7,10 +10,10 @@ if (version_compare(PHP_VERSION, $minVersion) < 0)
 
 require 'vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-$sdk = new \Aws\Sdk([
+$sdk = new Sdk([
     'region' => $_ENV['REGION'],
     'version' => 'latest',
 ]);

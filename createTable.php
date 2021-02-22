@@ -9,7 +9,7 @@ try {
     $createResult = $dynClient->createTable([
         'AttributeDefinitions' => [
             [
-                'AttributeName' => 'Name',
+                'AttributeName' => 'UUID',
                 'AttributeType' => ATTRIBUTE_TYPE_STRING,
             ],
             [
@@ -19,7 +19,7 @@ try {
         ],
         'KeySchema' => [
             [
-                'AttributeName' => 'Name',
+                'AttributeName' => 'UUID',
                 'KeyType' => KEY_TYPE_HASH,
             ],
             [

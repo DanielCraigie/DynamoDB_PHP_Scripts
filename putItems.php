@@ -1,24 +1,28 @@
 <?php
 
+use Aws\DynamoDb\DynamoDbClient;
+use Aws\DynamoDB\Exception\DynamoDbException;
+use Faker\Factory;
+
 require_once '.bootstrap.php';
 
-/** @var \Aws\DynamoDb\DynamoDbClient $dynClient */
+/** @var DynamoDbClient $dynClient */
 /** @var string $tableName */
 
 try {
     for ($i = 1; $i <= 10; $i++) {
-        $faker = Faker\Factory::create();
+        $faker = Factory::create();
 
+        $uuid = $faker->uuid;
         $firstName = $faker->firstName;
         $lastName = $faker->lastName;
-        $fullName = "$firstName $lastName";
 
-        echo "Adding[$i] $fullName... ";
+        echo "Adding[$i] $firstName $lastName... ";
 
         $putPersonal = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'Name' => [ ATTRIBUTE_TYPE_STRING => $fullName ],
+                'UUID' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
                 'Information' => [ ATTRIBUTE_TYPE_STRING => 'Personal' ],
                 'Title' => [ ATTRIBUTE_TYPE_STRING => $faker->title ],
                 'Forename' => [ ATTRIBUTE_TYPE_STRING => $firstName ],
@@ -29,7 +33,7 @@ try {
         $putAddress = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'Name' => [ ATTRIBUTE_TYPE_STRING => $fullName ],
+                'UUID' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
                 'Information' => [ ATTRIBUTE_TYPE_STRING => 'Address' ],
                 'Building' => [ ATTRIBUTE_TYPE_STRING => $faker->buildingNumber ],
                 'Street1' => [ ATTRIBUTE_TYPE_STRING => $faker->streetName ],
@@ -43,7 +47,7 @@ try {
         $putContact = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'Name' => [ ATTRIBUTE_TYPE_STRING => $fullName ],
+                'UUID' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
                 'Information' => [ ATTRIBUTE_TYPE_STRING => 'Contact' ],
                 'Phone' => [ ATTRIBUTE_TYPE_STRING => $faker->phoneNumber ],
                 'Email' => [ ATTRIBUTE_TYPE_STRING => $faker->email ],
@@ -52,7 +56,7 @@ try {
 
         echo "Done\n";
     }
-} catch (\Aws\DynamoDB\Exception\DynamoDbException $dbException) {
+} catch (DynamoDbException $dbException) {
     if (preg_match('/Cannot do operations on a non-existent table/', $dbException->getMessage())) {
         echo "\nError: Table[$tableName] not found.\n";
     } else {
