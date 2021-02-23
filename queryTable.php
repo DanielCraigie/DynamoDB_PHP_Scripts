@@ -15,7 +15,7 @@ try {
         throw new Exception('You must provide a hash query string');
     }
 
-    list ($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
+    list($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
 
     $keyConditionExpression = '#hash = :hash';
     $expressionAttributeNames = [ '#hash' => $hashAttribute ];

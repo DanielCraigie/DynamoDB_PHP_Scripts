@@ -20,7 +20,8 @@ try {
     }
 
     if (empty($update['actions'])
-        || (empty($update['actions']['set'])
+        || (
+            empty($update['actions']['set'])
             && empty($update['actions']['remove'])
             && empty($update['actions']['add'])
             && empty($update['actions']['delete'])
@@ -29,7 +30,7 @@ try {
         throw new Exception('You must provide a valid "actions" element in the JSON array');
     }
 
-    list ($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
+    list($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
 
     $key = [
         $hashAttribute => [

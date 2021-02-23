@@ -3,6 +3,7 @@
         "aws/aws-sdk-php": "^3.171",
         "vlucas/phpdotenv": "^5.2",
         "fakerphp/faker": "^1.13",
-        "ext-json": "*"
+        "ext-json": "*",
+        "friendsofphp/php-cs-fixer": "^2.18"
     }
 }

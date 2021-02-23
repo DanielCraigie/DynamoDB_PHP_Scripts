@@ -9,7 +9,7 @@ require_once '.bootstrap.php';
 /** @var string $tableName */
 
 try {
-    list ($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
+    list($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
 
     $scanResults = $dynClient->scan([ 'TableName' => $tableName ]);
 

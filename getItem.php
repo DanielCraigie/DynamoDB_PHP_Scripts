@@ -9,7 +9,7 @@ require_once '.bootstrap.php';
 /** @var string $tableName */
 
 try {
-    list ($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
+    list($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
 
     if (empty($argv[1])
         || (!empty($rangeAttribute)
