@@ -37,3 +37,28 @@ define('ATTRIBUTE_TYPE_STRING', 'S');
 define('ATTRIBUTE_TYPE_STRING_SET', 'SS');
 
 $tableName = 'People';
+
+/**
+ * Returns HASH & optional RANGE Table Item Attributes
+ * @return array
+ */
+function getPrimaryKeyAttributes(): array
+{
+    global $dynClient;
+    global $tableName;
+
+    $tableDescription = $dynClient->describeTable([ 'TableName' => $tableName ]);
+
+    $hashAttribute = $rangeAttribute = null;
+    foreach ($tableDescription['Table']['KeySchema'] as $key) {
+        switch ($key['KeyType']) {
+            case KEY_TYPE_HASH:
+                $hashAttribute = $key['AttributeName'];
+                break;
+            case KEY_TYPE_RANGE:
+                $rangeAttribute = $key['AttributeName'];
+        }
+    }
+
+    return [$hashAttribute, $rangeAttribute];
+}

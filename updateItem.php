@@ -1,8 +1,11 @@
 <?php
 
+use Aws\DynamoDb\DynamoDbClient;
+use Aws\DynamoDB\Exception\DynamoDbException;
+
 require_once '.bootstrap.php';
 
-/** @var \Aws\DynamoDb\DynamoDbClient $dynClient */
+/** @var DynamoDbClient $dynClient */
 /** @var string $tableName */
 
 try {
@@ -26,18 +29,7 @@ try {
         throw new Exception('You must provide a valid "actions" element in the JSON array');
     }
 
-    $tableDescription = $dynClient->describeTable([ 'TableName' => $tableName ]);
-
-    $hashAttribute = $rangeAttribute = null;
-    foreach ($tableDescription['Table']['KeySchema'] as $key) {
-        switch ($key['KeyType']) {
-            case KEY_TYPE_HASH:
-                $hashAttribute = $key['AttributeName'];
-                break;
-            case KEY_TYPE_RANGE:
-                $rangeAttribute = $key['AttributeName'];
-        }
-    }
+    list ($hashAttribute, $rangeAttribute) = getPrimaryKeyAttributes();
 
     $key = [
         $hashAttribute => [
@@ -90,7 +82,7 @@ try {
     $updateResult = $dynClient->updateItem($expression);
 
     echo "End Update\n";
-} catch (\Aws\DynamoDB\Exception\DynamoDbException $dbException) {
+} catch (DynamoDbException $dbException) {
     if (preg_match('/Cannot do operations on a non-existent table/', $dbException->getMessage())) {
         echo "Table[$tableName] not found.\n";
     } else {
