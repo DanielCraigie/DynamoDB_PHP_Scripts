@@ -34,3 +34,17 @@ The `putItems` script auto-populates the Table with Faker data.
 - `php scanTable.php`
 - `php queryTable.php '{"hash":"HASH Value"}'`
 - `php queryTable.php '{"hash":"HASH Value", "range":"RANGE Value"}'`
+
+#### Update Table Items
+- `php updateItem.php '{"key":{"hash":"Value","range":"Value"},"actions":{"set":{"Attribute":"Value"}}}'`
+- `php updateItem.php '{"key":{"hash":"Value","range":"Value"},"actions":{"remove":"Attribute"}}'`
+- `php updateItem.php '{"key":{"hash":"Value","range":"Value"},"actions":{"remove":{"0":"Attribute"}}}'`
+
+The update script currently only supports the SET & REMOVE actions.
+
+### Example
+
+- `php createTable.php`
+- `php putItems.php`
+- `php scanTable.php`
+- `php deleteTable.php`
