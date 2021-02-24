@@ -10,18 +10,30 @@ if (version_compare(PHP_VERSION, $minVersion) < 0)
 
 require 'vendor/autoload.php';
 
+/*
+ * Init Dotenv for $_ENV variables
+ */
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+/*
+ * Init AWS PHP SDK
+ */
 $sdk = new Sdk([
     'region' => $_ENV['REGION'],
     'version' => 'latest',
 ]);
 
+/*
+ * Create DynamoDB API connection
+ */
 $dynClient = $sdk->createDynamoDb([
     'endpoint' => $_ENV['ENDPOINT']
 ]);
 
+/*
+ * Define DynamoDB constants for Scripts
+ */
 define('KEY_TYPE_HASH', 'HASH');
 define('KEY_TYPE_RANGE', 'RANGE');
 

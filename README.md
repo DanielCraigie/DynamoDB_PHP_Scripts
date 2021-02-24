@@ -24,6 +24,8 @@ There are a number of scripts that can be run from the Command Line:
 
 The script creates a simple Table for storing lots of Pii data...
 
+Currently doesn't support Secondary Indexes.
+
 #### Get/Put Items
 - `php putItems.php`
 - `php getItem.php "HASH Value" "RANGE Value"`
@@ -48,3 +50,8 @@ The update script currently only supports the SET & REMOVE actions.
 - `php putItems.php`
 - `php scanTable.php`
 - `php deleteTable.php`
+
+## Known Issues
+
+- Secondary Indexes are not supported
+- Update script does not support ADD & DELETE Actions
