@@ -22,8 +22,8 @@ try {
         $putPersonal = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'UUID' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
-                'Information' => [ ATTRIBUTE_TYPE_STRING => 'Personal' ],
+                'PK' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
+                'SK' => [ ATTRIBUTE_TYPE_STRING => 'Personal' ],
                 'Title' => [ ATTRIBUTE_TYPE_STRING => $faker->title ],
                 'Forename' => [ ATTRIBUTE_TYPE_STRING => $firstName ],
                 'Surname' => [ ATTRIBUTE_TYPE_STRING => $lastName ],
@@ -33,8 +33,8 @@ try {
         $putAddress = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'UUID' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
-                'Information' => [ ATTRIBUTE_TYPE_STRING => 'Address' ],
+                'PK' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
+                'SK' => [ ATTRIBUTE_TYPE_STRING => 'Address' ],
                 'Building' => [ ATTRIBUTE_TYPE_STRING => $faker->buildingNumber ],
                 'Street1' => [ ATTRIBUTE_TYPE_STRING => $faker->streetName ],
                 'City' => [ ATTRIBUTE_TYPE_STRING => $faker->city ],
@@ -47,8 +47,8 @@ try {
         $putContact = $dynClient->putItem([
             'TableName' => $tableName,
             'Item' => [
-                'UUID' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
-                'Information' => [ ATTRIBUTE_TYPE_STRING => 'Contact' ],
+                'PK' => [ ATTRIBUTE_TYPE_STRING => $uuid ],
+                'SK' => [ ATTRIBUTE_TYPE_STRING => 'Contact' ],
                 'Phone' => [ ATTRIBUTE_TYPE_STRING => $faker->phoneNumber ],
                 'Email' => [ ATTRIBUTE_TYPE_STRING => $faker->email ],
             ],
