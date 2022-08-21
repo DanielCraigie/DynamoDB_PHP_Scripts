@@ -28,14 +28,6 @@ require_once '.bootstrap.php';
 /** @var string $tableName */
 
 /*
- * table name validation
- */
-$validateName = function($name = '') {
-    return !empty($name)
-        && preg_match('/^[A-Za-z]+$/', $name);
-};
-
-/*
  * parse CLI arguments
  */
 $nameOverride = false;
@@ -44,7 +36,7 @@ foreach ($argv as $index => $arg) {
         case '-t':
         case '--table':
             if (empty($argv[$index + 1])
-                || !$validateName($argv[$index + 1])
+                || !validateTableName($argv[$index + 1])
             ) {
                 echo "Error: A valid table name must be supplied\n";
                 exit(1);
@@ -58,21 +50,7 @@ foreach ($argv as $index => $arg) {
 /*
  * ask user to confirm table name (if -t|--table hasn't been used)
  */
-$stdin = fopen('php://stdin', 'r');
-$valid = false;
-
-while (!$valid && !$nameOverride) {
-    echo 'Table name [' . $tableName . '] = ';
-    $name = rtrim(fgets(STDIN));
-    if (empty($name)) {
-        $valid = true;
-    } elseif ($validateName($name)) {
-        $tableName = $name;
-        $valid = true;
-    } else {
-        echo "Error: You must enter a valid string, please try again\n";
-    }
-}
+getTableNameFromUser($tableName, $nameOverride);
 
 try {
     $deleteResult = $dynClient->deleteTable([

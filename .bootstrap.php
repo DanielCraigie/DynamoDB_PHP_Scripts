@@ -5,8 +5,9 @@ use Aws\Sdk;
 
 // min PHP version requirement
 $minVersion = '7.4.0';
-if (version_compare(PHP_VERSION, $minVersion) < 0)
+if (version_compare(PHP_VERSION, $minVersion) < 0) {
     throw new Exception('Requires PHP ' . $minVersion . ' or greater.');
+}
 
 require 'vendor/autoload.php';
 
@@ -73,4 +74,65 @@ function getPrimaryKeyAttributes(): array
     }
 
     return [$hashAttribute, $rangeAttribute];
+}
+
+/**
+ * Validates table name entered by user
+ * @param string $name
+ * @return bool
+ */
+function validateTableName($name = '')
+{
+    return !empty($name)
+        && preg_match('/^[A-Za-z]+$/', $name);
+}
+
+/**
+ * Requires user to enter a valid table name
+ * @param string $tableName
+ * @param bool $nameOverride
+ * @return void
+ */
+function getTableNameFromUser(string &$tableName, bool $nameOverride): void
+{
+    $valid = false;
+
+    while (!$valid && !$nameOverride) {
+        echo 'Table name [' . $tableName . '] = ';
+        $name = rtrim(fgets(STDIN));
+        if (empty($name)) {
+            $valid = true;
+        } elseif (validateTableName($name)) {
+            $tableName = $name;
+            $valid = true;
+        } else {
+            echo "Error: You must enter a valid string, please try again\n";
+        }
+    }
+}
+
+/**
+ * Requires user to enter a valid table Key name
+ * @param string $keyName
+ * @param string $errorMessage
+ * @param string $default
+ * @return string
+ */
+function getTableKeyFromUser(string $keyName, string $errorMessage, string $default = ''): string
+{
+    while (true) {
+        echo "Please select a $keyName Key name" . (!empty($default) ? " [$default]" : '') . ': ';
+        $key = rtrim(fgets(STDIN));
+        if (!empty($default)
+            && empty($key)
+        ) {
+            return $default;
+        } elseif (preg_match('/^[A-Za-z0-9_\-\.]+$/', $key)
+            && mb_strlen($key) <= 255
+        ) {
+            return $key;
+        } else {
+            echo "Error: $errorMessage, please try again\n";
+        }
+    }
 }

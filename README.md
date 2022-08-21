@@ -53,5 +53,5 @@ The update script currently only supports the SET & REMOVE actions.
 
 ## Known Issues
 
-- Secondary Indexes are not supported
-- Update script does not support ADD & DELETE Actions
+- [ ] Secondary Indexes are not supported
+- [ ] Update script does not support ADD & DELETE Actions
