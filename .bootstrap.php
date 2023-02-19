@@ -21,6 +21,10 @@ $dotenv->load();
  * Init AWS PHP SDK
  */
 $sdk = new Sdk([
+    'credentials' => [
+        'key' => $_ENV['AWS_ACCESS_KEY_ID'],
+        'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'],
+    ],
     'region' => $_ENV['REGION'],
     'version' => 'latest',
 ]);
@@ -29,7 +33,7 @@ $sdk = new Sdk([
  * Create DynamoDB API connection
  */
 $dynClient = $sdk->createDynamoDb([
-    'endpoint' => $_ENV['ENDPOINT']
+    'endpoint' => $_ENV['ENDPOINT'],
 ]);
 
 /*
@@ -107,32 +111,6 @@ function getTableNameFromUser(string &$tableName, bool $nameOverride): void
             $valid = true;
         } else {
             echo "Error: You must enter a valid string, please try again\n";
-        }
-    }
-}
-
-/**
- * Requires user to enter a valid table Key name
- * @param string $keyName
- * @param string $errorMessage
- * @param string $default
- * @return string
- */
-function getTableKeyFromUser(string $keyName, string $errorMessage, string $default = ''): string
-{
-    while (true) {
-        echo "Please select a $keyName Key name" . (!empty($default) ? " [$default]" : '') . ': ';
-        $key = rtrim(fgets(STDIN));
-        if (!empty($default)
-            && empty($key)
-        ) {
-            return $default;
-        } elseif (preg_match('/^[A-Za-z0-9_\-\.]+$/', $key)
-            && mb_strlen($key) <= 255
-        ) {
-            return $key;
-        } else {
-            echo "Error: $errorMessage, please try again\n";
         }
     }
 }

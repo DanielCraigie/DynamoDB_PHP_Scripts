@@ -22,7 +22,7 @@ Options:
     exit(0);
 }
 
-require_once '.bootstrap.php';
+require_once '..' . DIRECTORY_SEPARATOR . '.bootstrap.php';
 
 /** @var DynamoDbClient $dynClient */
 /** @var string $tableName */

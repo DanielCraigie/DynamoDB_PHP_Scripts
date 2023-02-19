@@ -3,7 +3,7 @@
 use Aws\DynamoDb\DynamoDbClient;
 use Aws\DynamoDB\Exception\DynamoDbException;
 
-require_once '.bootstrap.php';
+require_once '..' . DIRECTORY_SEPARATOR . '.bootstrap.php';
 
 /** @var DynamoDbClient $dynClient */
 /** @var string $tableName */
