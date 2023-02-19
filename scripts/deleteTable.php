@@ -8,49 +8,22 @@ use Aws\DynamoDb\DynamoDbClient;
 if (in_array('-h', $argv)
     || in_array('--help', $argv)
 ) {?>
-Delete database table
+Deletes the Table
 
 Usage:
     php deleteTable.php [options]
-    php deleteTable.php -t <name>
 
 Options:
     -h --help   This help
-    -t --table  Table name
 
 <?php
     exit(0);
 }
 
-require_once '.bootstrap.php';
+require_once '..' . DIRECTORY_SEPARATOR . '.bootstrap.php';
 
 /** @var DynamoDbClient $dynClient */
 /** @var string $tableName */
-
-/*
- * parse CLI arguments
- */
-$nameOverride = false;
-foreach ($argv as $index => $arg) {
-    switch ($arg) {
-        case '-t':
-        case '--table':
-            if (empty($argv[$index + 1])
-                || !validateTableName($argv[$index + 1])
-            ) {
-                echo "Error: A valid table name must be supplied\n";
-                exit(1);
-            }
-            $tableName = $argv[$index + 1];
-            $nameOverride = true;
-            break;
-    }
-}
-
-/*
- * ask user to confirm table name (if -t|--table hasn't been used)
- */
-getTableNameFromUser($tableName, $nameOverride);
 
 try {
     $deleteResult = $dynClient->deleteTable([

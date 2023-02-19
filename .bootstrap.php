@@ -21,6 +21,10 @@ $dotenv->load();
  * Init AWS PHP SDK
  */
 $sdk = new Sdk([
+    'credentials' => [
+        'key' => $_ENV['AWS_ACCESS_KEY_ID'],
+        'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'],
+    ],
     'region' => $_ENV['REGION'],
     'version' => 'latest',
 ]);
@@ -29,7 +33,7 @@ $sdk = new Sdk([
  * Create DynamoDB API connection
  */
 $dynClient = $sdk->createDynamoDb([
-    'endpoint' => $_ENV['ENDPOINT']
+    'endpoint' => $_ENV['ENDPOINT'],
 ]);
 
 /*
@@ -49,90 +53,53 @@ define('ATTRIBUTE_TYPE_NULL', 'NULL');
 define('ATTRIBUTE_TYPE_STRING', 'S');
 define('ATTRIBUTE_TYPE_STRING_SET', 'SS');
 
+/*
+ * Static table configuration
+ */
 $tableName = 'People';
+$partitionKeyName = 'PK';
+$sortKeyName = 'SK';
+$readCapacityUnits = 5;
+$writeCapacityUnits = 5;
 
-/**
- * Returns HASH & optional RANGE Table Item Attributes
- * @return array
- */
-function getPrimaryKeyAttributes(): array
-{
-    global $dynClient;
-    global $tableName;
+function renderResults(Aws\Result $results) {
+    global $partitionKeyName, $sortKeyName;
 
-    $tableDescription = $dynClient->describeTable([ 'TableName' => $tableName ]);
+    $count = 1;
+    foreach ($results['Items'] as $item) {
+        $attributes = [];
+        $hashValue = $rangeValue = '';
 
-    $hashAttribute = $rangeAttribute = null;
-    foreach ($tableDescription['Table']['KeySchema'] as $key) {
-        switch ($key['KeyType']) {
-            case KEY_TYPE_HASH:
-                $hashAttribute = $key['AttributeName'];
-                break;
-            case KEY_TYPE_RANGE:
-                $rangeAttribute = $key['AttributeName'];
+        /*
+         * DynamoDb treats the Partition Key and (optional) Sort Key as standard Attributes of the Item
+         * Therefore, to present the data in a useful manner (by PK and SK) we need to filter those values out first
+         */
+        foreach ($item as $attributeName => $attributeData) {
+            /*
+             * the SDK will return each Attribute as an array [ DataType => Value ]
+             */
+            $attributeValue = reset($attributeData);
+
+            switch ($attributeName) {
+                case $partitionKeyName:
+                    $hashValue = $attributeValue;
+                    break;
+                case $sortKeyName:
+                    $rangeValue = $attributeValue;
+                    break;
+                default:
+                    $attributes[$attributeName] = $attributeValue;
+            }
         }
-    }
 
-    return [$hashAttribute, $rangeAttribute];
-}
+        echo "Item $count [ $partitionKeyName => $hashValue, $sortKeyName => $rangeValue";
 
-/**
- * Validates table name entered by user
- * @param string $name
- * @return bool
- */
-function validateTableName($name = '')
-{
-    return !empty($name)
-        && preg_match('/^[A-Za-z]+$/', $name);
-}
-
-/**
- * Requires user to enter a valid table name
- * @param string $tableName
- * @param bool $nameOverride
- * @return void
- */
-function getTableNameFromUser(string &$tableName, bool $nameOverride): void
-{
-    $valid = false;
-
-    while (!$valid && !$nameOverride) {
-        echo 'Table name [' . $tableName . '] = ';
-        $name = rtrim(fgets(STDIN));
-        if (empty($name)) {
-            $valid = true;
-        } elseif (validateTableName($name)) {
-            $tableName = $name;
-            $valid = true;
-        } else {
-            echo "Error: You must enter a valid string, please try again\n";
+        foreach ($attributes as $name => $value) {
+            echo ", $name => $value";
         }
-    }
-}
 
-/**
- * Requires user to enter a valid table Key name
- * @param string $keyName
- * @param string $errorMessage
- * @param string $default
- * @return string
- */
-function getTableKeyFromUser(string $keyName, string $errorMessage, string $default = ''): string
-{
-    while (true) {
-        echo "Please select a $keyName Key name" . (!empty($default) ? " [$default]" : '') . ': ';
-        $key = rtrim(fgets(STDIN));
-        if (!empty($default)
-            && empty($key)
-        ) {
-            return $default;
-        } elseif (preg_match('/^[A-Za-z0-9_\-\.]+$/', $key)
-            && mb_strlen($key) <= 255
-        ) {
-            return $key;
-        } else {
-            echo "Error: $errorMessage, please try again\n";
-        }
+        echo " ]\n";
+
+        $count++;
     }
 }

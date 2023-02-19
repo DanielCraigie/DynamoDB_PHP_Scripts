@@ -1,9 +1,8 @@
 {
     "require": {
-        "aws/aws-sdk-php": ">3.171",
-        "vlucas/phpdotenv": ">5.2",
-        "fakerphp/faker": ">1.13",
-        "ext-json": "*",
-        "friendsofphp/php-cs-fixer": ">2.18"
+        "aws/aws-sdk-php": "*",
+        "vlucas/phpdotenv": "*",
+        "fakerphp/faker": "*",
+        "ext-json": "*"
     }
 }
